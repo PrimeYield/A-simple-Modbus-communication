@@ -11,10 +11,10 @@ import (
 
 func main() {
 	// Modbus RTU/ASCII
-	handler := modbus.NewRTUClientHandler("\\\\.\\COM11")
-	handler.BaudRate = 19200
+	handler := modbus.NewRTUClientHandler("COM9")
+	handler.BaudRate = 9600
 	handler.DataBits = 8
-	handler.Parity = "E"
+	handler.Parity = "N"
 	handler.StopBits = 1
 	handler.SlaveId = 1
 	handler.Timeout = 5 * time.Second
@@ -24,13 +24,18 @@ func main() {
 	if err != nil {
 		log.Printf("Connect error: %v", err)
 		return
+	} else {
+		log.Printf("Connect success")
 	}
 	defer handler.Close()
 
 	client := modbus.NewClient(handler)
-	results, err := client.ReadHoldingRegisters(40, 1)
+	results, err := client.ReadHoldingRegisters(19, 1)
+	// results, err := client.WriteSingleRegister(19, 100)
+	// results, err := client.WriteSingleRegister(37, 0)
 	if err != nil {
 		log.Printf("ReadHoldingRegisters error: %v", err)
+		return
 	}
 	log.Println(results)
 	// os.WriteFile()
@@ -52,6 +57,6 @@ func main() {
 	// if i == 99 {
 	// 	break
 	// }
-	time.Sleep(60 * time.Second)
+	// time.Sleep(60 * time.Second)
 	// }
 }
