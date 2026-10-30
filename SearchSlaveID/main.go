@@ -8,7 +8,8 @@ import (
 )
 
 func main() {
-	handler := modbus.NewRTUClientHandler("COM4")
+	// handler := modbus.NewRTUClientHandler("COM12")
+	handler := modbus.NewRTUClientHandler("\\\\.\\COM10")
 	handler.BaudRate = 9600
 	handler.DataBits = 8
 	handler.Parity = "N"
